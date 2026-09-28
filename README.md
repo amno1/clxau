@@ -200,12 +200,6 @@ differ in what they put in `data`:
   address is a Kerberos principal name rather than a host.  No modern server
   accepts an auth exchange based on it.
 
-clXau recognises all of these at the format level - the family constants exist,
-the entries parse, and an application that wanted to read them can.  But it does
-not implement any of their crypto, and `*XAU-DEFAULT-PREFERENCES*` is
-`("MIT-MAGIC-COOKIE-1")`, so a best-match lookup ignores every other name unless
-the caller asks for it.
-
 [The spec](https://gitlab.freedesktop.org/xorg/lib/libxau/-/blob/master/doc/protocol.txt)
 is explicit about the assumption `MIT-MAGIC-COOKIE-1` rests on: "This mechanism
 assumes that the superuser and the transport layer between the client and the
