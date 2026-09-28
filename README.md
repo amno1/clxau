@@ -151,7 +151,7 @@ protocol matches libXau, which is race-free.
   protocol then matches libXau as on SBCL, and locking is race-free.
 
 * **On other implementations without CFFI**: the fallback checks for `FILE-l`
-  and then `rename-file`s `FILE-c` to it.  Between the check and the rename,
+  and then renames `FILE-c` to it.  Between the check and the rename,
   another process can do the same thing; both then believe they hold the lock.
   The file itself is not corrupted, but a writer racing another writer can lose
   an entry.
