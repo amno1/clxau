@@ -555,8 +555,9 @@
             (creat (concatenate 'string path "-c"))
             (link  (concatenate 'string path "-l"))
             (race-free #+sbcl t
-                       #-sbcl (eq clxau::*link-function*
-                                  #'clxau::%link-via-cffi)))
+                       #-sbcl (and (fboundp 'clxau::%link-via-cffi)
+                                   (eq clxau::*link-function*
+                                       (fdefinition 'clxau::%link-via-cffi)))))
        (is-equal (clxau:xau-lock-auth path) :lock-success)
        (is-true  (probe-file link))
        (when race-free
