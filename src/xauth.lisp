@@ -52,15 +52,15 @@
 #-sbcl
 (progn
   (defun string-to-octets (string)
-  (declare (type string string))
-  (let ((result (make-array (length string) :element-type '(unsigned-byte 8))))
-    (loop for ch across string
-          for i from 0
-          for code = (char-code ch)
-          do (unless (<= 0 code #xFF)
-               (error 'type-error :datum ch :expected-type '(unsigned-byte 8)))
-             (setf (aref result i) code))
-    result))
+    (declare (type string string))
+    (let ((result (make-array (length string) :element-type '(unsigned-byte 8))))
+      (loop for ch across string
+            for i from 0
+            for code = (char-code ch)
+            do (unless (<= 0 code #xFF)
+                 (error 'type-error :datum ch :expected-type '(unsigned-byte 8)))
+               (setf (aref result i) code))
+      result))
 
   (defun octets-to-string (octets)
     "Decode OCTETS as ISO 8859-1 (latin-1)."
