@@ -32,14 +32,15 @@
     (oldpath :string)
     (newpath :string))
 
-  ;; errno.  glibc puts it behind __errno_location; the BSDs and macOS behind
-  ;; __error.  Resolved at run time: a platform with neither leaves
-  ;; *ERRNO-LOCATION* NIL, %ERRNO returns NIL, and %LINK-VIA-CFFI falls back
-  ;; to probing for the distinction between EEXIST and ENOENT -- the same
-  ;; behaviour the portable %LINK has, and only reached on systems clXau does
-  ;; not otherwise claim to support.  
+  ;; errno.  glibc puts it behind __errno_location; the BSDs and macOS
+  ;; behind __error.  Resolved fresh on every call through
+  ;; *ERRNO-SYMBOL-LOOKUP*: a platform where neither symbol can be
+  ;; found returns NIL from the default value of that variable, which
+  ;; makes %ERRNO return NIL, which makes %LINK-VIA-CFFI probe for the
+  ;; EEXIST/ENOENT distinction by file existence instead; the same
+  ;; behaviour the portable %LINK has.  That path is only reached on
+  ;; systems clXau does not otherwise claim to support.
   (declaim (inline %errno))
-  ;;; in src/cffi.lisp, replacing the current %errno
   (defvar *errno-symbol-lookup*
     (lambda ()
       (or (ignore-errors
